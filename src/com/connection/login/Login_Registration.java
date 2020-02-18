@@ -31,7 +31,8 @@ public class Login_Registration extends HttpServlet {
 	    	      Pass.setMaxAge(60*60*24);
 	    	      response.addCookie(Pass);
     	      };
-    	      response.setContentType("text/html");
+    	       response.setContentType("text/html");      
+    	       PrintWriter pwriter = response.getWriter();
     	      boolean valid_login = false;
     	      try {
                   Connection conn = DatabaseConnection.initializeDatabase(); 
@@ -42,9 +43,7 @@ public class Login_Registration extends HttpServlet {
     	          // Extract data from result set
     	          while(rs.next()){
     	             //Retrieve by column name
-    	             int id  = rs.getInt("id");
     	             String nickname = rs.getString("nickname");
-    	             String email = rs.getString("email");
     	             String Pass = rs.getString("Pass");
     	             if(nickname.equals(request.getParameter("Username")) && Pass.equals(request.getParameter("Password"))) {
     	            	 valid_login = true;
@@ -65,8 +64,7 @@ public class Login_Registration extends HttpServlet {
     	      view.forward(request, response);
     	      }
     	      else {
-        	      RequestDispatcher view = request.getRequestDispatcher("index.html");
-        	      view.forward(request, response);
+    	    	  response.sendRedirect("http://localhost:8080/WebPage/");
     	      }
     	   }
     
