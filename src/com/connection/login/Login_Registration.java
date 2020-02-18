@@ -26,7 +26,7 @@ public class Login_Registration extends HttpServlet {
 		      Cookie Username = new Cookie("Username", request.getParameter("Username"));
 		      Username.setMaxAge(60*60*24);
 		      response.addCookie( Username );
-    	      if(request.getParameter("RemPass")=="on") {
+    	      if(request.getParameter("RemPass") != null) {
 	    	      Cookie Pass = new Cookie("Password", request.getParameter("Password"));
 	    	      Pass.setMaxAge(60*60*24);
 	    	      response.addCookie(Pass);
