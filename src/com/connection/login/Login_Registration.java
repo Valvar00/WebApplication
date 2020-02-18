@@ -1,3 +1,4 @@
+package com.connection.login;
 
 import java.io.*;
 import javax.servlet.http.*;
@@ -14,6 +15,7 @@ import java.util.*;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import com.connection.login.DatabaseConnection;
 
 @WebServlet("/Login")
 public class Login_Registration extends HttpServlet {
@@ -29,28 +31,24 @@ public class Login_Registration extends HttpServlet {
 	    	      Pass.setMaxAge(60*60*24);
 	    	      response.addCookie(Pass);
     	      };
-    	      DB_Connection obj_DB_Connection=new DB_Connection();
-    	  	  Connection conn=obj_DB_Connection.get_connection();
     	      response.setContentType("text/html");
+    	      boolean valid_login = false;
     	      try {
+                  Connection conn = DatabaseConnection.initializeDatabase(); 
     	          Statement stmt = conn.createStatement();
     	          String sql;
-    	          sql = "SELECT id, first, last, age FROM Employees";
+    	          sql = "SELECT id,nickname,email,Pass FROM test.Customers";
     	          ResultSet rs = stmt.executeQuery(sql);
-
     	          // Extract data from result set
     	          while(rs.next()){
     	             //Retrieve by column name
     	             int id  = rs.getInt("id");
-    	             int age = rs.getInt("age");
-    	             String first = rs.getString("first");
-    	             String last = rs.getString("last");
-
-    	             //Display values
-    	             System.out.println("ID: " + id + "<br>");
-    	             System.out.print(", Age: " + age + "<br>");
-    	             System.out.print(", First: " + first + "<br>");
-    	             System.out.print(", Last: " + last + "<br>");
+    	             String nickname = rs.getString("nickname");
+    	             String email = rs.getString("email");
+    	             String Pass = rs.getString("Pass");
+    	             if(nickname.equals(request.getParameter("Username")) && Pass.equals(request.getParameter("Password"))) {
+    	            	 valid_login = true;
+    	             }    
     	          }
     	          rs.close();
     	          stmt.close();
@@ -62,8 +60,14 @@ public class Login_Registration extends HttpServlet {
     	          //Handle errors for Class.forName
     	          e.printStackTrace();
     	       }
-    	      //RequestDispatcher view = request.getRequestDispatcher("html/details.html");
-    	      //view.forward(request, response);
+    	      if(valid_login) {
+    	      RequestDispatcher view = request.getRequestDispatcher("html/details.html");
+    	      view.forward(request, response);
+    	      }
+    	      else {
+        	      RequestDispatcher view = request.getRequestDispatcher("index.html");
+        	      view.forward(request, response);
+    	      }
     	   }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response)
