@@ -6,6 +6,7 @@
 <body>
 	<div class="hero">
 		<div class="form-box">
+			<h1 name="title"></h1>
 			<div class="button-box">
 				<div id="btn"></div>
 				<button type="button" class="toggle-btn" onclick="login()">Log In</button>
@@ -22,14 +23,15 @@
 			<input type="checkbox" class="check-box" name="RemPass" ><span>Remember Password</span>
 			<button type="submit" class="submit-btn">Login</button>
 		</form>
-		<form id="register" class="input-group">
-			<input type="text" class="input-field" placeholder="Username" required>
-			<input type="email" class="input-field" placeholder="Email" required>
-			<input type="password" class="input-field" placeholder="Enter Password" required>
+		<form id="register" class="input-group" action="Registration" method="POST">
+			<input type="text" class="input-field" placeholder="Username" required name="Username">
+			<input type="email" class="input-field" placeholder="Email" required name="Email">
+			<input type="password" class="input-field" placeholder="Enter Password" required name="Password">
 			<input type="checkbox" class="check-box"><span>I agree to something</span>
 			<button type="submit" class="submit-btn">Register</button>
 		</form>
 		</div>
+		
 	</div>
 
 <script>

@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 import java.util.*;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import com.connection.login.DatabaseConnection;
 
 @WebServlet("/Login")
@@ -32,36 +31,28 @@ public class Login_Registration extends HttpServlet {
 	    	      response.addCookie(Pass);
     	      };
     	       response.setContentType("text/html");      
-    	       PrintWriter pwriter = response.getWriter();
+    	       PrintWriter out = response.getWriter();
     	      boolean valid_login = false;
     	      try {
                   Connection conn = DatabaseConnection.initializeDatabase(); 
-    	          Statement stmt = conn.createStatement();
-    	          String sql;
-    	          sql = "SELECT id,nickname,email,Pass FROM test.Customers";
-    	          ResultSet rs = stmt.executeQuery(sql);
-    	          // Extract data from result set
-    	          while(rs.next()){
-    	             //Retrieve by column name
-    	             String nickname = rs.getString("nickname");
-    	             String Pass = rs.getString("Pass");
-    	             if(nickname.equals(request.getParameter("Username")) && Pass.equals(request.getParameter("Password"))) {
-    	            	 valid_login = true;
-    	             }    
-    	          }
-    	          rs.close();
-    	          stmt.close();
+    	    	  String n=request.getParameter("Username");  
+    	    	  String p=request.getParameter("Password");  
+    	          PreparedStatement ps=conn.prepareStatement(  "SELECT nickname,Pass FROM test.Customers WHERE nickname=? AND Pass=?"); 
+    	          ps.setString(1, n);
+    	          ps.setString(2, p);
+    	          ResultSet rs=ps.executeQuery();  
+    	          valid_login=rs.next();    
     	          conn.close();
     	       } catch(SQLException se) {
     	          //Handle errors for JDBC
     	          se.printStackTrace();
-    	       } catch(Exception e) {
+    	       } catch(Exception ne) {
     	          //Handle errors for Class.forName
-    	          e.printStackTrace();
+    	          ne.printStackTrace();
     	       }
     	      if(valid_login) {
-    	      RequestDispatcher view = request.getRequestDispatcher("html/details.html");
-    	      view.forward(request, response);
+	    	      RequestDispatcher view = request.getRequestDispatcher("html/details.html");
+	    	      view.forward(request, response);
     	      }
     	      else {
     	    	  response.sendRedirect("http://localhost:8080/WebPage/");
