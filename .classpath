@@ -20,5 +20,8 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="D:/login-reg-img/activation.jar"/>
+	<classpathentry kind="lib" path="D:/VK ava/javax.mail.jar"/>
+	<classpathentry kind="lib" path="D:/VK ava/javaee.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
